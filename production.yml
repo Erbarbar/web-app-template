@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: ./
+      dockerfile: ./dockerfiles/production/Dockerfile.nginx
+    ports:
+      - 80:80
