@@ -1,0 +1,31 @@
+name: Deploy
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{secrets.SSH_HOST}}
+          key: ${{secrets.SSH_KEY}}
+          username: ${{secrets.SSH_USERNAME}}
+          
+          script: |
+            mkdir template
+            cd template
+            echo 'docker-compose -f development down --remove-orphans'
+            docker-compose -f development down --remove-orphans
+            echo 'git pull origin master'
+            git pull origin master
+            echo 'docker-compose -f development build'
+            docker-compose -f development build
+            echo 'docker-compose -f development up -d'
+            docker-compose -f development up -d
+            echo 'done'
+            
+  
