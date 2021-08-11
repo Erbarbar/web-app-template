@@ -16,16 +16,11 @@ jobs:
           username: ${{secrets.SSH_USERNAME}}
           
           script: |
-            mkdir template
             cd template
-            echo 'docker-compose -f development down --remove-orphans'
-            docker-compose -f development down --remove-orphans
-            echo 'git pull origin master'
+            docker-compose -f development.yml down --remove-orphans
             git pull origin master
-            echo 'docker-compose -f development build'
-            docker-compose -f development build
-            echo 'docker-compose -f development up -d'
-            docker-compose -f development up -d
+            docker-compose -f development.yml build
+            docker-compose -f development.yml up -d
             echo 'done'
             
   
